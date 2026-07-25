@@ -65,11 +65,13 @@
         z-index: 90;
       }
       .sidenav .brand {
-        display: block;
         padding: 0 20px 18px;
         border-bottom: 1px solid rgba(255, 255, 255, 0.12);
         margin-bottom: 12px;
+      }
+      .sidenav .brand a {
         text-decoration: none;
+        color: inherit;
       }
       .sidenav .brand strong {
         color: #fff;
@@ -629,6 +631,19 @@
           cursor: pointer;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         }
+        .menu-toggle.hide {
+          display: none;
+        }
+        .nav-backdrop {
+          display: none;
+          position: fixed;
+          inset: 0;
+          background: rgba(8, 14, 24, 0.55);
+          z-index: 140;
+        }
+        .nav-backdrop.show {
+          display: block;
+        }
         .content {
           width: 100%;
           margin-left: 0;
@@ -666,18 +681,16 @@
     </style>
   </head>
   <body>
-    <div
-      class="menu-toggle"
-      onclick="document.getElementById('nav').classList.toggle('open')"
-    >
-      &#9776;
-    </div>
+    <div class="menu-toggle" id="menuToggle" onclick="openNav()">&#9776;</div>
+    <div class="nav-backdrop" id="navBackdrop" onclick="closeNav()"></div>
 
     <div class="shell">
       <nav class="sidenav" id="nav">
-        <a class="brand" href="https://axion-dynamics.vercel.app/"
-          ><strong>AXION DYNAMICS</strong><span>Network Documentation</span></a
-        >
+        <div class="brand">
+          <a href="https://axion-dynamics.vercel.app/"
+            ><strong>AXION DYNAMICS</strong></a
+          ><span>Network Documentation</span>
+        </div>
 
         <div class="grp-label">Introduction</div>
         <a href="#overview">Overview</a>
@@ -2519,9 +2532,20 @@ ip route 172.16.99.0 255.255.255.0 198.51.100.2</pre
     <a href="#overview" class="toplink">↑</a>
 
     <script>
+      function openNav() {
+        document.getElementById("nav").classList.add("open");
+        document.getElementById("navBackdrop").classList.add("show");
+        document.getElementById("menuToggle").classList.add("hide");
+      }
+      function closeNav() {
+        document.getElementById("nav").classList.remove("open");
+        document.getElementById("navBackdrop").classList.remove("show");
+        document.getElementById("menuToggle").classList.remove("hide");
+      }
+
       document.querySelectorAll(".sidenav a").forEach(function (link) {
         link.addEventListener("click", function () {
-          document.getElementById("nav").classList.remove("open");
+          closeNav();
         });
       });
 
