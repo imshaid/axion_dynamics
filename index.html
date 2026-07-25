@@ -1,0 +1,2552 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Axion Dynamics Network Documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <style>
+      :root {
+        --navy: #0c2340;
+        --navy2: #132b4d;
+        --coral: #d85a30;
+        --coral-dark: #993c1d;
+        --bg: #eef1f5;
+        --card: #ffffff;
+        --line: #dde3e9;
+        --text: #20262e;
+        --muted: #5c6773;
+        --green: #1d7a5c;
+        --amber: #a3650f;
+        --blue: #1a5f9e;
+        --red: #a32d2d;
+        --mono-bg: #0d1826;
+        --mono-txt: #c7dcc4;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family:
+          Segoe UI,
+          Arial,
+          Helvetica,
+          sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.65;
+        font-size: 15px;
+      }
+
+      /* Layout: sidebar nav + content */
+      .shell {
+        display: flex;
+        min-height: 100vh;
+      }
+      .sidenav {
+        width: 250px;
+        flex-shrink: 0;
+        background: var(--navy);
+        color: #c9d6e5;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 22px 0;
+      }
+      .sidenav .brand {
+        padding: 0 20px 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        margin-bottom: 12px;
+      }
+      .sidenav .brand strong {
+        color: #fff;
+        font-size: 1.15em;
+        letter-spacing: 1px;
+        display: block;
+      }
+      .sidenav .brand span {
+        font-size: 0.72em;
+        color: #8fa3ba;
+      }
+      .sidenav a {
+        display: block;
+        padding: 8px 20px;
+        color: #a9bbd0;
+        text-decoration: none;
+        font-size: 0.86em;
+        border-left: 3px solid transparent;
+      }
+      .sidenav a:hover {
+        background: rgba(255, 255, 255, 0.06);
+        color: #fff;
+      }
+      .sidenav a.active {
+        border-left-color: var(--coral);
+        color: #fff;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      .sidenav .grp-label {
+        padding: 16px 20px 4px;
+        font-size: 0.68em;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: #5f7591;
+      }
+
+      .menu-toggle {
+        display: none;
+      }
+
+      .content {
+        flex: 1;
+        min-width: 0;
+      }
+      .hero {
+        background: linear-gradient(120deg, var(--navy), var(--navy2));
+        color: #fff;
+        padding: 38px 40px;
+      }
+      .hero h1 {
+        margin: 0;
+        font-size: 1.9em;
+        letter-spacing: 0.5px;
+      }
+      .hero .sub {
+        color: #a9bbd0;
+        margin-top: 6px;
+        font-size: 0.95em;
+      }
+      .hero .meta {
+        margin-top: 16px;
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        font-size: 0.8em;
+        color: #8fa3ba;
+      }
+      .hero .meta b {
+        color: #dfe8f2;
+      }
+
+      .section {
+        padding: 36px 40px;
+        border-bottom: 1px solid var(--line);
+      }
+      .section:target {
+        animation: flash 1.1s ease;
+      }
+      @keyframes flash {
+        0% {
+          background: #fff7ec;
+        }
+        100% {
+          background: transparent;
+        }
+      }
+      h2 {
+        color: var(--navy);
+        font-size: 1.4em;
+        margin: 0 0 4px;
+      }
+      h2 .idx {
+        color: var(--coral);
+        margin-right: 8px;
+        font-family: Consolas, monospace;
+      }
+      .section-desc {
+        color: var(--muted);
+        font-size: 0.93em;
+        margin: 0 0 20px;
+        max-width: 760px;
+      }
+      h3 {
+        color: var(--navy2);
+        font-size: 1.08em;
+        margin: 26px 0 10px;
+        border-bottom: 1px solid var(--line);
+        padding-bottom: 6px;
+      }
+      h4 {
+        color: var(--navy2);
+        font-size: 0.98em;
+        margin: 16px 0 8px;
+      }
+      p {
+        color: #33404d;
+      }
+      a {
+        color: var(--blue);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 10px 0 22px;
+        font-size: 0.87em;
+      }
+      th {
+        background: var(--navy);
+        color: #fff;
+        text-align: left;
+        padding: 9px 11px;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      td {
+        padding: 8px 11px;
+        border-bottom: 1px solid var(--line);
+      }
+      tr:nth-child(even) td {
+        background: #f7f9fb;
+      }
+      .tbl-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        margin: 10px 0 22px;
+      }
+      .tbl-wrap table {
+        margin: 0;
+      }
+      .mono {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 0.92em;
+        background: #eef1f4;
+        padding: 1px 6px;
+        border-radius: 3px;
+        color: var(--navy2);
+      }
+
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+      .grid3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .grid4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      .stat {
+        background: #f7f9fb;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 14px 16px;
+        text-align: center;
+      }
+      .stat .num {
+        font-size: 1.7em;
+        font-weight: 700;
+        color: var(--navy);
+      }
+      .stat .lbl {
+        color: var(--muted);
+        font-size: 0.76em;
+        margin-top: 2px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 2px 9px;
+        border-radius: 10px;
+        font-size: 0.74em;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .pill-ok {
+        background: #e2f3ec;
+        color: var(--green);
+      }
+      .pill-info {
+        background: #e3eef8;
+        color: var(--blue);
+      }
+      .pill-warn {
+        background: #fbeedd;
+        color: var(--amber);
+      }
+      .pill-dev {
+        background: #efeaf7;
+        color: #5a3fa0;
+      }
+
+      code.block,
+      pre.block {
+        display: block;
+        background: var(--mono-bg);
+        color: var(--mono-txt);
+        padding: 16px 18px;
+        border-radius: 6px;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 0.82em;
+        overflow-x: auto;
+        white-space: pre;
+        line-height: 1.55;
+        margin: 10px 0 20px;
+      }
+      .cfg-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #1a2c42;
+        color: #9fb3c8;
+        padding: 8px 18px;
+        border-radius: 6px 6px 0 0;
+        font-size: 0.78em;
+        font-family: Consolas, monospace;
+        margin-top: 14px;
+      }
+      .cfg-head + pre.block {
+        margin-top: 0;
+        border-radius: 0 0 6px 6px;
+      }
+
+      details {
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        margin: 8px 0;
+        background: #fff;
+      }
+      details summary {
+        padding: 11px 15px;
+        cursor: pointer;
+        font-weight: 600;
+        color: var(--navy2);
+        font-size: 0.92em;
+        list-style: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      details summary::-webkit-details-marker {
+        display: none;
+      }
+      details summary::after {
+        content: "+";
+        color: var(--coral);
+        font-size: 1.3em;
+        font-weight: 400;
+      }
+      details[open] summary::after {
+        content: "–";
+      }
+      details[open] summary {
+        border-bottom: 1px solid var(--line);
+      }
+      details .inner {
+        padding: 4px 15px 14px;
+      }
+
+      .note {
+        background: #fdf6e9;
+        border-left: 4px solid var(--amber);
+        padding: 12px 16px;
+        border-radius: 4px;
+        margin: 14px 0;
+        font-size: 0.88em;
+        color: #5c4315;
+      }
+      .success {
+        background: #eaf6f0;
+        border-left: 4px solid var(--green);
+        padding: 12px 16px;
+        border-radius: 4px;
+        margin: 14px 0;
+        font-size: 0.88em;
+        color: #0f4a37;
+      }
+      .fail {
+        background: #fbeaea;
+        border-left: 4px solid var(--red);
+        padding: 12px 16px;
+        border-radius: 4px;
+        margin: 14px 0;
+        font-size: 0.88em;
+        color: #6e1f1f;
+      }
+      .quote {
+        border-left: 3px solid var(--line);
+        padding-left: 14px;
+        color: var(--muted);
+        font-style: italic;
+        font-size: 0.9em;
+        margin: 10px 0;
+      }
+
+      .tabs {
+        display: flex;
+        gap: 6px;
+        margin-bottom: 0;
+        flex-wrap: wrap;
+        border-bottom: 2px solid var(--line);
+      }
+      .tab-btn {
+        background: none;
+        border: none;
+        padding: 9px 16px;
+        cursor: pointer;
+        font-size: 0.87em;
+        color: var(--muted);
+        font-weight: 600;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+      }
+      .tab-btn.active {
+        color: var(--navy);
+        border-bottom-color: var(--coral);
+      }
+      .tab-panel {
+        display: none;
+        padding-top: 14px;
+      }
+      .tab-panel.active {
+        display: block;
+      }
+
+      .diagram-box {
+        background: #0d1826;
+        border-radius: 8px;
+        padding: 22px;
+        overflow-x: auto;
+      }
+      .diagram-box pre {
+        margin: 0;
+        color: #8fd6a8;
+        font-family: Consolas, monospace;
+        font-size: 0.72em;
+        line-height: 1.45;
+      }
+
+      .checklist {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 7px;
+      }
+      .checklist li {
+        background: #eaf6f0;
+        border: 1px solid #cfe9dc;
+        border-radius: 5px;
+        padding: 8px 11px;
+        font-size: 0.85em;
+        color: #0f4a37;
+        display: flex;
+        gap: 7px;
+        align-items: flex-start;
+      }
+      .checklist li b {
+        flex-shrink: 0;
+        background: var(--green);
+        color: #fff;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.68em;
+        margin-top: 2px;
+      }
+
+      .chart-card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 16px;
+      }
+      .chart-card h4 {
+        margin: 0 0 10px;
+      }
+
+      .toc-inline {
+        columns: 2;
+        column-gap: 24px;
+        font-size: 0.88em;
+      }
+      .toc-inline a {
+        display: block;
+        padding: 3px 0;
+        text-decoration: none;
+        color: var(--navy2);
+        break-inside: avoid;
+      }
+      .toc-inline a:hover {
+        color: var(--coral);
+      }
+
+      footer {
+        padding: 30px 40px;
+        color: var(--muted);
+        font-size: 0.82em;
+        text-align: center;
+      }
+
+      .toplink {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: var(--navy);
+        color: #fff;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        font-size: 1.15em;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        opacity: 0.85;
+        z-index: 50;
+      }
+
+      @media (max-width: 980px) {
+        .sidenav {
+          position: fixed;
+          left: -260px;
+          top: 0;
+          z-index: 100;
+          transition: left 0.25s;
+          box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
+        }
+        .sidenav.open {
+          left: 0;
+        }
+        .menu-toggle {
+          display: flex;
+          position: fixed;
+          top: 14px;
+          left: 14px;
+          z-index: 101;
+          background: var(--navy);
+          color: #fff;
+          width: 40px;
+          height: 40px;
+          border-radius: 6px;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.3em;
+          cursor: pointer;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        .content {
+          width: 100%;
+        }
+        .hero {
+          padding: 70px 20px 30px;
+        }
+        .section {
+          padding: 26px 20px;
+        }
+        .grid2,
+        .grid3,
+        .grid4 {
+          grid-template-columns: 1fr;
+        }
+        .toc-inline {
+          columns: 1;
+        }
+        body {
+          font-size: 14px;
+        }
+      }
+      @media (max-width: 520px) {
+        .hero h1 {
+          font-size: 1.5em;
+        }
+        table {
+          font-size: 0.8em;
+        }
+        th,
+        td {
+          padding: 6px 7px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      class="menu-toggle"
+      onclick="document.getElementById('nav').classList.toggle('open')"
+    >
+      &#9776;
+    </div>
+
+    <div class="shell">
+      <nav class="sidenav" id="nav">
+        <div class="brand">
+          <strong>AXION DYNAMICS</strong><span>Network Documentation</span>
+        </div>
+
+        <div class="grp-label">Introduction</div>
+        <a href="#overview">Overview</a>
+        <a href="#company">Company Profile</a>
+        <a href="#team">Team &amp; Instructor</a>
+
+        <div class="grp-label">Design</div>
+        <a href="#architecture">Architecture</a>
+        <a href="#topology">Topology Diagram</a>
+        <a href="#addressing">IP Addressing (VLSM)</a>
+
+        <div class="grp-label">Build</div>
+        <a href="#devices">Device Inventory</a>
+        <a href="#cabling">Port-to-Port Cabling</a>
+        <a href="#configs">Router Configurations</a>
+        <a href="#switching">Switch &amp; VLAN Configs</a>
+
+        <div class="grp-label">Services</div>
+        <a href="#routing">Routing Design</a>
+        <a href="#services">Network Services</a>
+        <a href="#security">NAT &amp; Security</a>
+
+        <div class="grp-label">Verification</div>
+        <a href="#stats">Statistics</a>
+        <a href="#testing">Testing Log</a>
+        <a href="#troubleshoot">Troubleshooting</a>
+        <a href="#conclusion">Conclusion</a>
+      </nav>
+
+      <div class="content">
+        <div class="hero" id="overview">
+          <h1>Axion Dynamics — Enterprise Network Documentation</h1>
+          <div class="sub">
+            Cisco Packet Tracer implementation record — Computer Networks Lab
+          </div>
+          <div class="meta">
+            <span><b>7</b> sites</span>
+            <span><b>8</b> routers</span>
+            <span><b>7</b> switches</span>
+            <span><b>VLSM</b> addressing</span>
+            <span><b>OSPF + Static</b> routing</span>
+            <span>Team Adrenaline · DIU</span>
+          </div>
+        </div>
+
+        <!-- OVERVIEW -->
+        <div class="section">
+          <p>
+            This document records the design and build of Axion Dynamics'
+            internal network — a seven-site enterprise topology covering Head
+            Office, four branch operations, a central Data Center, and a
+            simulated internet edge with a remote worker. Every subnet, cable
+            run, and configuration line below reflects what was actually built
+            and tested in Packet Tracer, including the routing and NAT/ACL
+            issues that came up mid-build and how each was resolved.
+          </p>
+          <div class="grid4" style="margin-top: 18px">
+            <div class="stat">
+              <div class="num">10.10.0.0/16</div>
+              <div class="lbl">Base network</div>
+            </div>
+            <div class="stat">
+              <div class="num">17</div>
+              <div class="lbl">Subnets allocated</div>
+            </div>
+            <div class="stat">
+              <div class="num">17</div>
+              <div class="lbl">End devices</div>
+            </div>
+            <div class="stat">
+              <div class="num">35</div>
+              <div class="lbl">Cable runs</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- COMPANY -->
+        <div class="section" id="company">
+          <h2><span class="idx">01</span>Company Profile</h2>
+          <p class="section-desc">
+            Business context behind the design decisions — every VLAN, routing
+            choice and DHCP method below traces back to something in this table.
+          </p>
+          <div class="tbl-wrap">
+            <table>
+              <tr>
+                <th>Division</th>
+                <th>Function</th>
+                <th>Network role</th>
+              </tr>
+              <tr>
+                <td>Head Office</td>
+                <td>Corporate admin &amp; IT governance</td>
+                <td>Core router + L3 switch, VLAN segmentation, WAN hub</td>
+              </tr>
+              <tr>
+                <td>Client Solutions (Branch 1)</td>
+                <td>Sales, live product demos</td>
+                <td>Wireless AP for staff moving around during demos</td>
+              </tr>
+              <tr>
+                <td>R&amp;D Lab (Branch 2)</td>
+                <td>AI-robotics design &amp; simulation</td>
+                <td>Standard branch LAN, largest PC count</td>
+              </tr>
+              <tr>
+                <td>Manufacturing Plant (Branch 3)</td>
+                <td>Assembly, on-floor testing</td>
+                <td>Standard branch LAN</td>
+              </tr>
+              <tr>
+                <td>Distribution Hub (Branch 4)</td>
+                <td>Logistics, outbound shipment tracking</td>
+                <td>
+                  Independent local DHCP + static routing (WAN-outage resilient)
+                </td>
+              </tr>
+              <tr>
+                <td>Data Center</td>
+                <td>Core infrastructure</td>
+                <td>DHCP, DNS, HTTP, Mail, FTP; NAT and ACL boundary</td>
+              </tr>
+              <tr>
+                <td>Remote Worker</td>
+                <td>Off-site employee</td>
+                <td>
+                  Simulated internet client, static IP on a home-network subnet
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="note">
+            Branch 4 runs its own local DHCP pool instead of pulling from the
+            central server — a WAN link failure to the Data Center should never
+            stop the distribution floor from handing out IP addresses to
+            scanners and workstations.
+          </div>
+        </div>
+
+        <!-- TEAM -->
+        <div class="section" id="team">
+          <h2><span class="idx">02</span>Team &amp; Instructor</h2>
+          <div class="grid2">
+            <div class="tbl-wrap">
+              <table>
+                <tr>
+                  <th>Name</th>
+                  <th>ID</th>
+                </tr>
+                <tr>
+                  <td>Atkia Galiba Rifah</td>
+                  <td>241-15-076</td>
+                </tr>
+                <tr>
+                  <td>Md. Shaid Hasan</td>
+                  <td>241-15-360</td>
+                </tr>
+                <tr>
+                  <td>Md. Fazle Rabbi</td>
+                  <td>241-15-364</td>
+                </tr>
+                <tr>
+                  <td>Md. Afsahul Arefin Talukder</td>
+                  <td>241-15-377</td>
+                </tr>
+                <tr>
+                  <td>Sormili Akter Nowshin</td>
+                  <td>241-15-404</td>
+                </tr>
+              </table>
+            </div>
+            <div class="tbl-wrap">
+              <table>
+                <tr>
+                  <td>Instructor</td>
+                  <td>Mr. Tanvirul Islam</td>
+                </tr>
+                <tr>
+                  <td>Designation</td>
+                  <td>Lecturer</td>
+                </tr>
+                <tr>
+                  <td>Department</td>
+                  <td>CSE</td>
+                </tr>
+                <tr>
+                  <td>Faculty</td>
+                  <td>Science and Information Technology</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- ARCHITECTURE -->
+        <div class="section" id="architecture">
+          <h2><span class="idx">03</span>Architecture</h2>
+          <p class="section-desc">
+            Hub-and-spoke with two hubs: HQ for the office branches, Data Center
+            for Distribution and the internet edge.
+          </p>
+          <p>
+            HQ-R1 is the primary hub for Branch1–3. Data Center-R6 acts as a
+            secondary hub for Branch4 and carries all internet-facing traffic —
+            this keeps user-office traffic and server-facing traffic on
+            physically separate paths. Inter-VLAN routing at HQ is handled by a
+            Layer 3 switch rather than the router itself, which avoids the
+            single-trunk bottleneck of a router-on-a-stick setup once you're
+            past two or three VLANs.
+          </p>
+          <h3>Why this shape and not a flat network</h3>
+          <table>
+            <tr>
+              <th>Problem with a flat network</th>
+              <th>How this design avoids it</th>
+            </tr>
+            <tr>
+              <td>One compromised device exposes everything</td>
+              <td>Server Farm isolated in its own subnet behind an ACL</td>
+            </tr>
+            <tr>
+              <td>Broadcast domain grows unmanageable</td>
+              <td>VLAN10/20 at HQ, separate /24 per branch</td>
+            </tr>
+            <tr>
+              <td>Single point of failure on the only WAN link</td>
+              <td>Dual serial link HQ↔Branch1 (primary + backup)</td>
+            </tr>
+            <tr>
+              <td>Branch outage kills local operations too</td>
+              <td>Branch4 runs local DHCP independent of Data Center</td>
+            </tr>
+          </table>
+        </div>
+
+        <!-- TOPOLOGY -->
+        <div class="section" id="topology">
+          <h2><span class="idx">04</span>Topology Diagram</h2>
+          <div class="diagram-box">
+            <pre>
+                                          +-----------+          +------------+       +--------+
+                                          |  ISP-R7   |----------| Remote-R8  |-------| Rmt-PC |
+                                          +-----+-----+          +------------+       +--------+
+                                                |     203.0.113.0/30      198.51.100.0/30
+                                                |  NAT (PAT+Static) + ACL
+                                          +------+---------+
+                                          | DataCenter-R6  |----Static routing---+
+                                          | Server1 .6.2   |                    |
+                                          | Server2 .6.3   |             +------+------+
+                                          | NAT pub .10    |             | Branch4-R5  |
+                                          +------+---------+             | Dist. Hub   |
+                                                 |                       | local DHCP  |
+                                          +------+---------+            +-------------+
+                                          |    HQ-R1       |
+                                          | L3-Switch      |
+                                          | VLAN10 / VLAN20|
+                                          +--+------+----+-+
+                                   ________/       |     \________
+                                  /                |              \
+                          +-------+-----+   +------+------+   +----+--------+
+                          | Branch1-R2  |   | Branch2-R3  |   | Branch3-R4  |
+                          | Sales + AP  |   | R&amp;D Lab     |   | Mfg. Plant  |
+                          | dual link   |   +-------------+   +-------------+
+                          +-------------+</pre
+            >
+          </div>
+          <p style="font-size: 0.85em; color: var(--muted)">
+            Rendered as ASCII for portability. The annotated version with
+            per-site IP/DHCP labels lives in the .pkt file canvas as in-place
+            text notes.
+          </p>
+        </div>
+
+        <!-- ADDRESSING -->
+        <div class="section" id="addressing">
+          <h2><span class="idx">05</span>IP Addressing Plan (VLSM)</h2>
+          <p class="section-desc">
+            Base block <span class="mono">10.10.0.0/16</span>. LAN subnets sized
+            /24 for growth headroom; point-to-point WAN links sized /30 for an
+            exact fit — the actual demonstration of VLSM, since a flat /24
+            everywhere would waste 252 addresses on every two-router link.
+          </p>
+
+          <h3>LAN subnets</h3>
+          <div class="tbl-wrap">
+            <table>
+              <tr>
+                <th>Site / VLAN</th>
+                <th>Network</th>
+                <th>Gateway</th>
+                <th>Usable range</th>
+                <th>DHCP pool</th>
+                <th>Method</th>
+              </tr>
+              <tr>
+                <td>HQ – VLAN 10 (Admin)</td>
+                <td class="mono">10.10.0.0/24</td>
+                <td class="mono">10.10.0.1</td>
+                <td class="mono">.2–.254</td>
+                <td class="mono">.10–.109</td>
+                <td><span class="pill pill-info">helper-address</span></td>
+              </tr>
+              <tr>
+                <td>HQ – VLAN 20 (IT)</td>
+                <td class="mono">10.10.1.0/24</td>
+                <td class="mono">10.10.1.1</td>
+                <td class="mono">.2–.254</td>
+                <td class="mono">.10–.109</td>
+                <td><span class="pill pill-info">helper-address</span></td>
+              </tr>
+              <tr>
+                <td>Branch1 – Sales</td>
+                <td class="mono">10.10.2.0/24</td>
+                <td class="mono">10.10.2.1</td>
+                <td class="mono">.2–.254</td>
+                <td class="mono">.10–.109</td>
+                <td><span class="pill pill-info">helper-address</span></td>
+              </tr>
+              <tr>
+                <td>Branch2 – R&amp;D</td>
+                <td class="mono">10.10.3.0/24</td>
+                <td class="mono">10.10.3.1</td>
+                <td class="mono">.2–.254</td>
+                <td class="mono">.10–.109</td>
+                <td><span class="pill pill-info">helper-address</span></td>
+              </tr>
+              <tr>
+                <td>Branch3 – Manufacturing</td>
+                <td class="mono">10.10.4.0/24</td>
+                <td class="mono">10.10.4.1</td>
+                <td class="mono">.2–.254</td>
+                <td class="mono">.10–.109</td>
+                <td><span class="pill pill-info">helper-address</span></td>
+              </tr>
+              <tr>
+                <td>Branch4 – Distribution</td>
+                <td class="mono">10.10.5.0/24</td>
+                <td class="mono">10.10.5.1</td>
+                <td class="mono">.2–.254</td>
+                <td class="mono">.10–.109</td>
+                <td><span class="pill pill-warn">local pool</span></td>
+              </tr>
+              <tr>
+                <td>Data Center</td>
+                <td class="mono">10.10.6.0/24</td>
+                <td class="mono">10.10.6.1</td>
+                <td class="mono">.2–.254</td>
+                <td>—</td>
+                <td>static only</td>
+              </tr>
+            </table>
+          </div>
+
+          <h3>WAN / transit links (/30)</h3>
+          <div class="tbl-wrap">
+            <table>
+              <tr>
+                <th>Link</th>
+                <th>Network</th>
+                <th>Endpoint A</th>
+                <th>Endpoint B</th>
+                <th>Routing</th>
+              </tr>
+              <tr>
+                <td>HQ ↔ Branch1 (primary)</td>
+                <td class="mono">10.10.7.0/30</td>
+                <td>HQ-R1 .1</td>
+                <td>Branch1-R2 .2</td>
+                <td>OSPF cost 64</td>
+              </tr>
+              <tr>
+                <td>HQ ↔ Branch1 (backup)</td>
+                <td class="mono">10.10.7.24/30</td>
+                <td>HQ-R1 .25</td>
+                <td>Branch1-R2 .26</td>
+                <td>OSPF cost 100</td>
+              </tr>
+              <tr>
+                <td>HQ ↔ Branch2</td>
+                <td class="mono">10.10.7.4/30</td>
+                <td>HQ-R1 .5</td>
+                <td>Branch2-R3 .6</td>
+                <td>OSPF</td>
+              </tr>
+              <tr>
+                <td>HQ ↔ Branch3</td>
+                <td class="mono">10.10.7.8/30</td>
+                <td>HQ-R1 .9</td>
+                <td>Branch3-R4 .10</td>
+                <td>OSPF</td>
+              </tr>
+              <tr>
+                <td>HQ ↔ Data Center</td>
+                <td class="mono">10.10.7.12/30</td>
+                <td>HQ-R1 .13</td>
+                <td>DataCenter-R6 .14</td>
+                <td>OSPF</td>
+              </tr>
+              <tr>
+                <td>Data Center ↔ Branch4</td>
+                <td class="mono">10.10.7.16/30</td>
+                <td>DataCenter-R6 .17</td>
+                <td>Branch4-R5 .18</td>
+                <td>Static + redistribute</td>
+              </tr>
+              <tr>
+                <td>HQ ↔ L3-Switch (transit)</td>
+                <td class="mono">10.10.7.28/30</td>
+                <td>HQ-R1 .29</td>
+                <td>L3-Switch .30</td>
+                <td>OSPF</td>
+              </tr>
+            </table>
+          </div>
+
+          <h3>External / ISP zone</h3>
+          <div class="tbl-wrap">
+            <table>
+              <tr>
+                <th>Segment</th>
+                <th>Network</th>
+                <th>Note</th>
+              </tr>
+              <tr>
+                <td>ISP ↔ Data Center</td>
+                <td class="mono">203.0.113.0/30</td>
+                <td>RFC 5737 documentation range</td>
+              </tr>
+              <tr>
+                <td>ISP ↔ Remote Worker</td>
+                <td class="mono">198.51.100.0/30</td>
+                <td>RFC 5737 documentation range</td>
+              </tr>
+              <tr>
+                <td>Remote Worker LAN</td>
+                <td class="mono">172.16.99.0/24</td>
+                <td>Static IP, classful mask kept per lab convention</td>
+              </tr>
+              <tr>
+                <td>Static NAT public IP</td>
+                <td class="mono">203.0.113.10</td>
+                <td>Maps to Server2 (10.10.6.3)</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- DEVICES -->
+        <div class="section" id="devices">
+          <h2><span class="idx">06</span>Device Inventory</h2>
+          <div class="grid3">
+            <div class="chart-card">
+              <h4>Devices by type</h4>
+              <canvas id="deviceChart" height="200"></canvas>
+            </div>
+            <div class="chart-card">
+              <h4>End hosts per site</h4>
+              <canvas id="hostChart" height="200"></canvas>
+            </div>
+            <div class="chart-card">
+              <h4>Router model usage</h4>
+              <canvas id="routerChart" height="200"></canvas>
+            </div>
+          </div>
+
+          <h3 style="margin-top: 26px">Full device list</h3>
+          <div class="tbl-wrap">
+            <table>
+              <tr>
+                <th>Device</th>
+                <th>Model</th>
+                <th>Site</th>
+                <th>Role</th>
+              </tr>
+              <tr>
+                <td class="mono">HQ-R1</td>
+                <td>Cisco 2911</td>
+                <td>HQ</td>
+                <td>
+                  Core router, WAN hub (6 interfaces: 1 Gig, 5 Serial via 3×
+                  HWIC-2T)
+                </td>
+              </tr>
+              <tr>
+                <td class="mono">L3-Switch</td>
+                <td>Cisco 3560-24PS</td>
+                <td>HQ</td>
+                <td>Inter-VLAN routing (VLAN10/20 SVIs)</td>
+              </tr>
+              <tr>
+                <td class="mono">Access-SW1</td>
+                <td>Cisco 2960-24TT</td>
+                <td>HQ</td>
+                <td>Access layer, trunk to L3-Switch</td>
+              </tr>
+              <tr>
+                <td class="mono">Branch1-R2</td>
+                <td>Cisco 2911</td>
+                <td>Branch1</td>
+                <td>Dual-homed to HQ (primary + backup serial)</td>
+              </tr>
+              <tr>
+                <td class="mono">SW-Branch1</td>
+                <td>Cisco 2960-24TT</td>
+                <td>Branch1</td>
+                <td>LAN switch + AP uplink</td>
+              </tr>
+              <tr>
+                <td class="mono">AP-Branch1</td>
+                <td>Cisco AP-PT</td>
+                <td>Branch1</td>
+                <td>WPA2-PSK wireless, SSID AxionDynamics-Sales</td>
+              </tr>
+              <tr>
+                <td class="mono">Branch2-R3</td>
+                <td>Cisco 2911</td>
+                <td>Branch2</td>
+                <td>Standard branch router (1 HWIC-2T)</td>
+              </tr>
+              <tr>
+                <td class="mono">SW-Branch2</td>
+                <td>Cisco 2960-24TT</td>
+                <td>Branch2</td>
+                <td>LAN switch</td>
+              </tr>
+              <tr>
+                <td class="mono">Branch3-R4</td>
+                <td>Cisco 2911</td>
+                <td>Branch3</td>
+                <td>Standard branch router (1 HWIC-2T)</td>
+              </tr>
+              <tr>
+                <td class="mono">SW-Branch3</td>
+                <td>Cisco 2960-24TT</td>
+                <td>Branch3</td>
+                <td>LAN switch</td>
+              </tr>
+              <tr>
+                <td class="mono">Branch4-R5</td>
+                <td>Cisco 2911</td>
+                <td>Branch4</td>
+                <td>Static routing, local DHCP pool (1 HWIC-2T)</td>
+              </tr>
+              <tr>
+                <td class="mono">SW-Branch4</td>
+                <td>Cisco 2960-24TT</td>
+                <td>Branch4</td>
+                <td>LAN switch</td>
+              </tr>
+              <tr>
+                <td class="mono">DataCenter-R6</td>
+                <td>Cisco 2911</td>
+                <td>Data Center</td>
+                <td>NAT, ACL, OSPF redistribution (1 HWIC-2T)</td>
+              </tr>
+              <tr>
+                <td class="mono">SW-DataCenter</td>
+                <td>Cisco 2960-24TT</td>
+                <td>Data Center</td>
+                <td>Server LAN switch</td>
+              </tr>
+              <tr>
+                <td class="mono">Server1</td>
+                <td>Generic Server</td>
+                <td>Data Center</td>
+                <td>DHCP + DNS — 10.10.6.2</td>
+              </tr>
+              <tr>
+                <td class="mono">Server2</td>
+                <td>Generic Server</td>
+                <td>Data Center</td>
+                <td>HTTP + Mail + FTP — 10.10.6.3</td>
+              </tr>
+              <tr>
+                <td class="mono">ISP-R7</td>
+                <td>Cisco 2911</td>
+                <td>Edge</td>
+                <td>Simulated internet backbone, no routing protocol</td>
+              </tr>
+              <tr>
+                <td class="mono">Remote-R8</td>
+                <td>Cisco 2911</td>
+                <td>Remote</td>
+                <td>Simulated home/hotel gateway</td>
+              </tr>
+            </table>
+          </div>
+
+          <h3>End-user devices</h3>
+          <div class="tbl-wrap">
+            <table>
+              <tr>
+                <th>Site</th>
+                <th>Devices</th>
+                <th>Assignment</th>
+              </tr>
+              <tr>
+                <td>HQ VLAN10 (Admin)</td>
+                <td class="mono">Adm-PC1, Adm-PC2</td>
+                <td>DHCP via Server1</td>
+              </tr>
+              <tr>
+                <td>HQ VLAN20 (IT)</td>
+                <td class="mono">IT-PC1</td>
+                <td>DHCP via Server1</td>
+              </tr>
+              <tr>
+                <td>Branch1 (Sales)</td>
+                <td class="mono">
+                  Sale-PC1, Sale-PC2, Sale-PC3, Sale-Lap1 (wireless)
+                </td>
+                <td>DHCP via Server1 / AP</td>
+              </tr>
+              <tr>
+                <td>Branch2 (R&amp;D)</td>
+                <td class="mono">RnD-PC1 … RnD-PC4</td>
+                <td>DHCP via Server1</td>
+              </tr>
+              <tr>
+                <td>Branch3 (Manufacturing)</td>
+                <td class="mono">Mfg-PC1 … Mfg-PC3</td>
+                <td>DHCP via Server1</td>
+              </tr>
+              <tr>
+                <td>Branch4 (Distribution)</td>
+                <td class="mono">Dist-PC1, Dist-PC2</td>
+                <td>DHCP via Branch4-R5 local pool</td>
+              </tr>
+              <tr>
+                <td>Remote</td>
+                <td class="mono">Rmt-PC</td>
+                <td>Static IP (172.16.99.10)</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- CABLING -->
+        <div class="section" id="cabling">
+          <h2><span class="idx">07</span>Port-to-Port Cabling</h2>
+          <p class="section-desc">
+            Every physical connection in the topology, in the order they were
+            built: HQ core first, then WAN links out to each branch, then each
+            branch's local LAN.
+          </p>
+
+          <h3>WAN links (Serial DCE — clock rate set on the DCE end)</h3>
+          <div class="tbl-wrap">
+            <table>
+              <tr>
+                <th>#</th>
+                <th>Device A</th>
+                <th>Port A</th>
+                <th>Device B</th>
+                <th>Port B</th>
+                <th>DCE side</th>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td class="mono">HQ-R1</td>
+                <td class="mono">Se0/0/0</td>
+                <td class="mono">Branch1-R2</td>
+                <td class="mono">Se0/0/0</td>
+                <td>HQ-R1</td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td class="mono">HQ-R1</td>
+                <td class="mono">Se0/0/1</td>
+                <td class="mono">Branch1-R2</td>
+                <td class="mono">Se0/0/1</td>
+                <td>HQ-R1</td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td class="mono">HQ-R1</td>
+                <td class="mono">Se0/1/0</td>
+                <td class="mono">Branch2-R3</td>
+                <td class="mono">Se0/0/0</td>
+                <td>HQ-R1</td>
+              </tr>
+              <tr>
+                <td>4</td>
+                <td class="mono">HQ-R1</td>
+                <td class="mono">Se0/1/1</td>
+                <td class="mono">Branch3-R4</td>
+                <td class="mono">Se0/0/0</td>
+                <td>HQ-R1</td>
+              </tr>
+              <tr>
+                <td>5</td>
+                <td class="mono">HQ-R1</td>
+                <td class="mono">Se0/2/0</td>
+                <td class="mono">DataCenter-R6</td>
+                <td class="mono">Se0/0/0</td>
+                <td>HQ-R1</td>
+              </tr>
+              <tr>
+                <td>6</td>
+                <td class="mono">DataCenter-R6</td>
+                <td class="mono">Se0/0/1</td>
+                <td class="mono">Branch4-R5</td>
+                <td class="mono">Se0/0/0</td>
+                <td>DataCenter-R6</td>
+              </tr>
+            </table>
+          </div>
+
+          <h3>
+            LAN / trunk / uplink runs (Copper Straight-Through unless noted)
+          </h3>
+          <div class="tbl-wrap">
+            <table>
+              <tr>
+                <th>#</th>
+                <th>Device A</th>
+                <th>Port A</th>
+                <th>Device B</th>
+                <th>Port B</th>
+                <th>Notes</th>
+              </tr>
+              <tr>
+                <td>7</td>
+                <td class="mono">HQ-R1</td>
+                <td class="mono">Gi0/0</td>
+                <td class="mono">L3-Switch</td>
+                <td class="mono">Gi0/1</td>
+                <td>Routed transit link</td>
+              </tr>
+              <tr>
+                <td>8</td>
+                <td class="mono">L3-Switch</td>
+                <td class="mono">Gi0/2</td>
+                <td class="mono">Access-SW1</td>
+                <td class="mono">Gi1/1</td>
+                <td>802.1Q trunk</td>
+              </tr>
+              <tr>
+                <td>9</td>
+                <td class="mono">Access-SW1</td>
+                <td class="mono">Fa0/1</td>
+                <td class="mono">Adm-PC1</td>
+                <td class="mono">Fa0</td>
+                <td>VLAN 10</td>
+              </tr>
+              <tr>
+                <td>10</td>
+                <td class="mono">Access-SW1</td>
+                <td class="mono">Fa0/2</td>
+                <td class="mono">Adm-PC2</td>
+                <td class="mono">Fa0</td>
+                <td>VLAN 10</td>
+              </tr>
+              <tr>
+                <td>11</td>
+                <td class="mono">Access-SW1</td>
+                <td class="mono">Fa0/3</td>
+                <td class="mono">IT-PC1</td>
+                <td class="mono">Fa0</td>
+                <td>VLAN 20</td>
+              </tr>
+              <tr>
+                <td>12</td>
+                <td class="mono">Branch1-R2</td>
+                <td class="mono">Gi0/0</td>
+                <td class="mono">SW-Branch1</td>
+                <td class="mono">Gi1/1</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>13</td>
+                <td class="mono">SW-Branch1</td>
+                <td class="mono">Fa0/1</td>
+                <td class="mono">Sale-PC1</td>
+                <td class="mono">Fa0</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>14</td>
+                <td class="mono">SW-Branch1</td>
+                <td class="mono">Fa0/2</td>
+                <td class="mono">Sale-PC2</td>
+                <td class="mono">Fa0</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>15</td>
+                <td class="mono">SW-Branch1</td>
+                <td class="mono">Fa0/3</td>
+                <td class="mono">Sale-PC3</td>
+                <td class="mono">Fa0</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>16</td>
+                <td class="mono">SW-Branch1</td>
+                <td class="mono">Fa0/4</td>
+                <td class="mono">AP-Branch1</td>
+                <td class="mono">Port0</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>17</td>
+                <td class="mono">Sale-Lap1</td>
+                <td class="mono">Wireless0</td>
+                <td class="mono">AP-Branch1</td>
+                <td>radio</td>
+                <td>WPA2-PSK, no cable</td>
+              </tr>
+              <tr>
+                <td>18</td>
+                <td class="mono">Branch2-R3</td>
+                <td class="mono">Gi0/0</td>
+                <td class="mono">SW-Branch2</td>
+                <td class="mono">Gi1/1</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>19–22</td>
+                <td class="mono">SW-Branch2</td>
+                <td class="mono">Fa0/1–0/4</td>
+                <td class="mono">RnD-PC1–4</td>
+                <td class="mono">Fa0</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>23</td>
+                <td class="mono">Branch3-R4</td>
+                <td class="mono">Gi0/0</td>
+                <td class="mono">SW-Branch3</td>
+                <td class="mono">Gi1/1</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>24–26</td>
+                <td class="mono">SW-Branch3</td>
+                <td class="mono">Fa0/1–0/3</td>
+                <td class="mono">Mfg-PC1–3</td>
+                <td class="mono">Fa0</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>27</td>
+                <td class="mono">Branch4-R5</td>
+                <td class="mono">Gi0/0</td>
+                <td class="mono">SW-Branch4</td>
+                <td class="mono">Gi1/1</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>28–29</td>
+                <td class="mono">SW-Branch4</td>
+                <td class="mono">Fa0/1–0/2</td>
+                <td class="mono">Dist-PC1–2</td>
+                <td class="mono">Fa0</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>30</td>
+                <td class="mono">DataCenter-R6</td>
+                <td class="mono">Gi0/0</td>
+                <td class="mono">SW-DataCenter</td>
+                <td class="mono">Gi1/1</td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td>31</td>
+                <td class="mono">SW-DataCenter</td>
+                <td class="mono">Fa0/1</td>
+                <td class="mono">Server1</td>
+                <td class="mono">Fa0</td>
+                <td>DHCP+DNS</td>
+              </tr>
+              <tr>
+                <td>32</td>
+                <td class="mono">SW-DataCenter</td>
+                <td class="mono">Fa0/2</td>
+                <td class="mono">Server2</td>
+                <td class="mono">Fa0</td>
+                <td>HTTP+Mail+FTP</td>
+              </tr>
+              <tr>
+                <td>33</td>
+                <td class="mono">DataCenter-R6</td>
+                <td class="mono">Gi0/1</td>
+                <td class="mono">ISP-R7</td>
+                <td class="mono">Gi0/0</td>
+                <td>NAT outside boundary</td>
+              </tr>
+              <tr>
+                <td>34</td>
+                <td class="mono">ISP-R7</td>
+                <td class="mono">Gi0/1</td>
+                <td class="mono">Remote-R8</td>
+                <td class="mono">Gi0/0</td>
+                <td>Auto-negotiated (cross-over)</td>
+              </tr>
+              <tr>
+                <td>35</td>
+                <td class="mono">Remote-R8</td>
+                <td class="mono">Gi0/1</td>
+                <td class="mono">Rmt-PC</td>
+                <td class="mono">Fa0</td>
+                <td>—</td>
+              </tr>
+            </table>
+          </div>
+          <div class="note">
+            Note on cabling: connecting Remote-R8 and ISP-R7 with "Automatically
+            Choose Connection Type" resulted in a cross-over cable, not
+            straight-through — Packet Tracer's internal auto-detection treats
+            certain router-to-router Gig links as "like" devices for this
+            purpose. Where a manual straight-through was tried first, the link
+            light stayed red until it was replaced with the auto-selected cable.
+          </div>
+        </div>
+
+        <!-- CONFIGS -->
+        <div class="section" id="configs">
+          <h2><span class="idx">08</span>Router Configurations</h2>
+          <p class="section-desc">
+            Full running-config excerpts for every router, as applied and
+            verified. Click a router to expand.
+          </p>
+
+          <details open>
+            <summary>HQ-R1 <span class="pill pill-dev">Core</span></summary>
+            <div class="inner">
+              <pre class="block">
+hostname HQ-R1
+!
+interface GigabitEthernet0/0
+ ip address 10.10.7.29 255.255.255.252
+ description Link-to-L3-Switch-Transit
+ no shutdown
+!
+interface Serial0/0/0
+ ip address 10.10.7.1 255.255.255.252
+ clock rate 64000
+ description Link-to-Branch1-Primary
+ no shutdown
+!
+interface Serial0/0/1
+ ip address 10.10.7.25 255.255.255.252
+ clock rate 64000
+ ip ospf cost 100
+ description Link-to-Branch1-Backup
+ no shutdown
+!
+interface Serial0/1/0
+ ip address 10.10.7.5 255.255.255.252
+ clock rate 64000
+ description Link-to-Branch2
+ no shutdown
+!
+interface Serial0/1/1
+ ip address 10.10.7.9 255.255.255.252
+ clock rate 64000
+ description Link-to-Branch3
+ no shutdown
+!
+interface Serial0/2/0
+ ip address 10.10.7.13 255.255.255.252
+ clock rate 64000
+ description Link-to-DataCenter
+ no shutdown
+!
+router ospf 1
+ network 10.10.7.0 0.0.0.3 area 0
+ network 10.10.7.4 0.0.0.3 area 0
+ network 10.10.7.8 0.0.0.3 area 0
+ network 10.10.7.12 0.0.0.3 area 0
+ network 10.10.7.24 0.0.0.3 area 0
+ network 10.10.7.28 0.0.0.3 area 0</pre
+              >
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              Branch1-R2 <span class="pill pill-dev">Sales — dual-homed</span>
+            </summary>
+            <div class="inner">
+              <pre class="block">
+hostname Branch1-R2
+!
+interface GigabitEthernet0/0
+ ip address 10.10.2.1 255.255.255.0
+ description Link-to-SW-Branch1
+ ip helper-address 10.10.6.2
+ no shutdown
+!
+interface Serial0/0/0
+ ip address 10.10.7.2 255.255.255.252
+ description Link-to-HQ-Primary
+ no shutdown
+!
+interface Serial0/0/1
+ ip address 10.10.7.26 255.255.255.252
+ ip ospf cost 100
+ description Link-to-HQ-Backup
+ no shutdown
+!
+router ospf 1
+ network 10.10.2.0 0.0.0.255 area 0
+ network 10.10.7.0 0.0.0.3 area 0
+ network 10.10.7.24 0.0.0.3 area 0</pre
+              >
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              Branch2-R3 <span class="pill pill-dev">R&amp;D</span>
+            </summary>
+            <div class="inner">
+              <pre class="block">
+hostname Branch2-R3
+!
+interface GigabitEthernet0/0
+ ip address 10.10.3.1 255.255.255.0
+ description Link-to-SW-Branch2
+ ip helper-address 10.10.6.2
+ no shutdown
+!
+interface Serial0/0/0
+ ip address 10.10.7.6 255.255.255.252
+ description Link-to-HQ
+ no shutdown
+!
+router ospf 1
+ network 10.10.3.0 0.0.0.255 area 0
+ network 10.10.7.4 0.0.0.3 area 0</pre
+              >
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              Branch3-R4 <span class="pill pill-dev">Manufacturing</span>
+            </summary>
+            <div class="inner">
+              <pre class="block">
+hostname Branch3-R4
+!
+interface GigabitEthernet0/0
+ ip address 10.10.4.1 255.255.255.0
+ description Link-to-SW-Branch3
+ ip helper-address 10.10.6.2
+ no shutdown
+!
+interface Serial0/0/0
+ ip address 10.10.7.10 255.255.255.252
+ description Link-to-HQ
+ no shutdown
+!
+router ospf 1
+ network 10.10.4.0 0.0.0.255 area 0
+ network 10.10.7.8 0.0.0.3 area 0</pre
+              >
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              Branch4-R5
+              <span class="pill pill-warn"
+                >Distribution — static routing, no OSPF</span
+              >
+            </summary>
+            <div class="inner">
+              <pre class="block">
+hostname Branch4-R5
+!
+interface GigabitEthernet0/0
+ ip address 10.10.5.1 255.255.255.0
+ description Link-to-SW-Branch4
+ no shutdown
+!
+interface Serial0/0/0
+ ip address 10.10.7.18 255.255.255.252
+ description Link-to-DataCenter
+ no shutdown
+!
+ip dhcp excluded-address 10.10.5.1 10.10.5.9
+!
+ip dhcp pool Branch4-LocalPool
+ network 10.10.5.0 255.255.255.0
+ default-router 10.10.5.1
+ dns-server 10.10.6.2
+!
+ip route 0.0.0.0 0.0.0.0 10.10.7.17</pre
+              >
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              DataCenter-R6
+              <span class="pill pill-dev">NAT + ACL + redistribution</span>
+            </summary>
+            <div class="inner">
+              <pre class="block">
+hostname DataCenter-R6
+!
+interface GigabitEthernet0/0
+ ip address 10.10.6.1 255.255.255.0
+ description Link-to-SW-DataCenter
+ ip nat inside
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 203.0.113.2 255.255.255.252
+ description Link-to-ISP
+ ip nat outside
+ ip access-group INBOUND-FILTER in
+ no shutdown
+!
+interface Serial0/0/0
+ ip address 10.10.7.14 255.255.255.252
+ description Link-to-HQ
+ ip nat inside
+ no shutdown
+!
+interface Serial0/0/1
+ ip address 10.10.7.17 255.255.255.252
+ clock rate 64000
+ description Link-to-Branch4
+ ip nat inside
+ no shutdown
+!
+ip route 0.0.0.0 0.0.0.0 203.0.113.1
+ip route 10.10.5.0 255.255.255.0 10.10.7.18
+!
+access-list 1 permit 10.10.0.0 0.0.255.255
+ip nat inside source list 1 interface GigabitEthernet0/1 overload
+ip nat inside source static 10.10.6.3 203.0.113.10
+!
+ip access-list extended INBOUND-FILTER
+ permit tcp any host 203.0.113.10
+ permit udp any host 203.0.113.10
+ permit icmp any host 203.0.113.10
+ deny ip any any
+!
+router ospf 1
+ network 10.10.6.0 0.0.0.255 area 0
+ network 10.10.7.12 0.0.0.3 area 0
+ network 10.10.7.16 0.0.0.3 area 0
+ redistribute static subnets
+ default-information originate</pre
+              >
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              ISP-R7
+              <span class="pill pill-info">Edge / simulated internet</span>
+            </summary>
+            <div class="inner">
+              <pre class="block">
+hostname ISP-R7
+!
+interface GigabitEthernet0/0
+ ip address 203.0.113.1 255.255.255.252
+ description Link-to-DataCenter
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 198.51.100.1 255.255.255.252
+ description Link-to-RemoteWorker
+ no shutdown
+!
+ip route 203.0.113.10 255.255.255.255 203.0.113.2
+ip route 172.16.99.0 255.255.255.0 198.51.100.2</pre
+              >
+              <div class="note" style="margin-top: 10px">
+                Two host/subnet static routes were added here after the initial
+                build — see <a href="#troubleshoot">Troubleshooting</a> for why.
+                ISP-R7 intentionally runs no routing protocol; it represents an
+                outside network, not part of the company's IGP.
+              </div>
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              Remote-R8
+              <span class="pill pill-info">Remote worker gateway</span>
+            </summary>
+            <div class="inner">
+              <pre class="block">
+hostname Remote-R8
+!
+interface GigabitEthernet0/0
+ ip address 198.51.100.2 255.255.255.252
+ description Link-to-ISP
+ no shutdown
+!
+interface GigabitEthernet0/1
+ ip address 172.16.99.1 255.255.0.0
+ description Link-to-RemotePC
+ no shutdown
+!
+ip route 0.0.0.0 0.0.0.0 198.51.100.1</pre
+              >
+            </div>
+          </details>
+        </div>
+
+        <!-- SWITCHING -->
+        <div class="section" id="switching">
+          <h2><span class="idx">09</span>Switch &amp; VLAN Configuration</h2>
+
+          <details open>
+            <summary>
+              L3-Switch <span class="pill pill-dev">Inter-VLAN routing</span>
+            </summary>
+            <div class="inner">
+              <pre class="block">
+hostname L3-Switch
+ip routing
+!
+vlan 10
+ name Admin
+vlan 20
+ name IT
+!
+interface Vlan10
+ ip address 10.10.0.1 255.255.255.0
+ ip helper-address 10.10.6.2
+ no shutdown
+!
+interface Vlan20
+ ip address 10.10.1.1 255.255.255.0
+ ip helper-address 10.10.6.2
+ no shutdown
+!
+interface GigabitEthernet0/1
+ no switchport
+ ip address 10.10.7.30 255.255.255.252
+ no shutdown
+!
+interface GigabitEthernet0/2
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ no shutdown
+!
+router ospf 1
+ network 10.10.0.0 0.0.0.255 area 0
+ network 10.10.1.0 0.0.0.255 area 0
+ network 10.10.7.28 0.0.0.3 area 0</pre
+              >
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              Access-SW1 <span class="pill pill-info">HQ access layer</span>
+            </summary>
+            <div class="inner">
+              <pre class="block">
+hostname Access-SW1
+!
+vlan 10
+ name Admin
+vlan 20
+ name IT
+!
+interface GigabitEthernet1/1
+ switchport mode trunk
+ no shutdown
+!
+interface FastEthernet0/1
+ switchport mode access
+ switchport access vlan 10
+interface FastEthernet0/2
+ switchport mode access
+ switchport access vlan 10
+interface FastEthernet0/3
+ switchport mode access
+ switchport access vlan 20</pre
+              >
+            </div>
+          </details>
+
+          <details>
+            <summary>
+              AP-Branch1 <span class="pill pill-info">Wireless</span>
+            </summary>
+            <div class="inner">
+              <table>
+                <tr>
+                  <th>Setting</th>
+                  <th>Value</th>
+                </tr>
+                <tr>
+                  <td>SSID</td>
+                  <td class="mono">AxionDynamics-Sales</td>
+                </tr>
+                <tr>
+                  <td>Channel</td>
+                  <td>6</td>
+                </tr>
+                <tr>
+                  <td>Authentication</td>
+                  <td>WPA2-PSK</td>
+                </tr>
+                <tr>
+                  <td>Passphrase</td>
+                  <td class="mono">sales@123</td>
+                </tr>
+                <tr>
+                  <td>Encryption</td>
+                  <td>AES</td>
+                </tr>
+              </table>
+            </div>
+          </details>
+        </div>
+
+        <!-- ROUTING -->
+        <div class="section" id="routing">
+          <h2><span class="idx">10</span>Routing Design</h2>
+          <div class="tbl-wrap">
+            <table>
+              <tr>
+                <th>Component</th>
+                <th>Detail</th>
+              </tr>
+              <tr>
+                <td>Dynamic routing</td>
+                <td>
+                  OSPF process 1, single area 0 — HQ, Branch1–3, Data Center,
+                  L3-Switch
+                </td>
+              </tr>
+              <tr>
+                <td>Static routing</td>
+                <td>
+                  Branch4 uses a default static route to Data Center instead of
+                  OSPF
+                </td>
+              </tr>
+              <tr>
+                <td>Redistribution</td>
+                <td>
+                  <span class="mono">redistribute static subnets</span> on Data
+                  Center makes Branch4's subnet visible to the rest of OSPF
+                </td>
+              </tr>
+              <tr>
+                <td>WAN redundancy</td>
+                <td>
+                  HQ↔Branch1 dual serial link, primary cost 64 / backup cost 100
+                </td>
+              </tr>
+              <tr>
+                <td>Default route origination</td>
+                <td>
+                  <span class="mono">default-information originate</span> on
+                  Data Center gives every internal router a path to the internet
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <h3>Redundancy verification</h3>
+          <div class="cfg-head">
+            <span>Branch1-R2# show ip route ospf</span
+            ><span>after primary restored</span>
+          </div>
+          <pre class="block">
+O    10.10.0.0/24 [110/66] via 10.10.7.1, 02:08:15, Serial0/0/0
+O    10.10.6.0/24 [110/129] via 10.10.7.1, 02:27:41, Serial0/0/0</pre
+          >
+          <p style="font-size: 0.88em">
+            Primary link (Se0/0/0, cost 64) carries traffic under normal
+            conditions. Shutting it down forces automatic reconvergence onto the
+            backup path (Se0/0/1, cost 100) within seconds, confirmed by
+            re-running the same command.
+          </p>
+        </div>
+
+        <!-- SERVICES -->
+        <div class="section" id="services">
+          <h2><span class="idx">11</span>Network Services</h2>
+          <div class="tabs" id="svcTabs">
+            <button class="tab-btn active" data-tab="t-dhcp">DHCP</button>
+            <button class="tab-btn" data-tab="t-dns">DNS</button>
+            <button class="tab-btn" data-tab="t-http">HTTP</button>
+            <button class="tab-btn" data-tab="t-mail">Email</button>
+            <button class="tab-btn" data-tab="t-ftp">FTP</button>
+            <button class="tab-btn" data-tab="t-wifi">Wireless</button>
+          </div>
+
+          <div id="t-dhcp" class="tab-panel active">
+            <p>
+              Server1 (10.10.6.2) runs five pools — one per HQ VLAN and per
+              office branch — reached across subnet boundaries via
+              <span class="mono">ip helper-address</span> on each gateway
+              interface. Branch4 is deliberately excluded from this and runs its
+              own local pool on Branch4-R5.
+            </p>
+            <div class="cfg-head">
+              <span>PC0 → Desktop → IP Configuration</span><span>result</span>
+            </div>
+            <pre class="block">
+DHCP request successful.
+IP Address ..... 10.10.2.10
+Subnet Mask ..... 255.255.255.0
+Default Gateway . 10.10.2.1
+DNS Server ...... 10.10.6.2</pre
+            >
+            <div class="cfg-head">
+              <span>Dist-PC1 (Branch4, local pool)</span><span>result</span>
+            </div>
+            <pre class="block">
+DHCP request successful.
+IP Address ..... 10.10.5.10
+Default Gateway . 10.10.5.1</pre
+            >
+          </div>
+
+          <div id="t-dns" class="tab-panel">
+            <p>
+              DNS hosted on Server1 under the
+              <span class="mono">axiondynamics.com</span> domain (switched from
+              <span class="mono">.local</span> after the mail client rejected
+              that TLD as an invalid email domain — see Troubleshooting).
+            </p>
+            <div class="tbl-wrap">
+              <table>
+                <tr>
+                  <th>Record</th>
+                  <th>Type</th>
+                  <th>Points to</th>
+                </tr>
+                <tr>
+                  <td class="mono">www.axiondynamics.com</td>
+                  <td>A</td>
+                  <td class="mono">10.10.6.3</td>
+                </tr>
+                <tr>
+                  <td class="mono">mail.axiondynamics.com</td>
+                  <td>A</td>
+                  <td class="mono">10.10.6.3</td>
+                </tr>
+                <tr>
+                  <td class="mono">ftp.axiondynamics.com</td>
+                  <td>A</td>
+                  <td class="mono">10.10.6.3</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div id="t-http" class="tab-panel">
+            <p>
+              HTTP/HTTPS enabled on Server2, serving a custom
+              <span class="mono">index.html</span> with company overview,
+              division table, project team, and instructor details. Verified
+              end-to-end using the domain name, not the raw IP — confirming DNS
+              and HTTP together.
+            </p>
+            <div class="cfg-head">
+              <span>PC0 browser</span><span>http://www.axiondynamics.com</span>
+            </div>
+            <pre class="block">
+Page rendered:
+  AXION DYNAMICS — Engineering Intelligence...
+  About Us / Our Divisions / Project Team / Course Instructor</pre
+            >
+          </div>
+
+          <div id="t-mail" class="tab-panel">
+            <p>
+              SMTP + POP3 on Server2, domain
+              <span class="mono">axiondynamics.com</span>, accounts
+              <span class="mono">admin</span>, <span class="mono">sales</span>,
+              <span class="mono">hr</span>.
+            </p>
+            <div class="cfg-head">
+              <span
+                >PC0 sales@axiondynamics.com → PC1 admin@axiondynamics.com</span
+              ><span>Mail Browser log</span>
+            </div>
+            <pre class="block">
+Sending mail to admin@axiondynamics.com, subject: Test Mail
+DNS resolving mail.axiondynamics.com -> 10.10.6.3
+Receiving mail from POP3 Server mail.axiondynamics.com
+Receive Mail Success.</pre
+            >
+          </div>
+
+          <div id="t-ftp" class="tab-panel">
+            <p>
+              FTP enabled on Server2. Two accounts configured: default
+              <span class="mono">cisco/cisco</span> and
+              <span class="mono">ftpuser/1234</span>, both with full RWDNL
+              permission.
+            </p>
+            <div class="cfg-head">
+              <span>RnD-PC2 command prompt</span><span>live session</span>
+            </div>
+            <pre class="block">
+PC&gt;ftp mail.axiondynamics.com
+Connected to mail.axiondynamics.com
+220- Welcome to PT Ftp server
+Username: ftpuser
+331- Username ok, need password
+230- Logged in (passive mode On)
+ftp&gt;get c2960-lanbase-mz.122-25.FX.bin
+[Transfer complete - 4414921 bytes]
+4414921 bytes copied in 7.622 secs (15737 bytes/sec)</pre
+            >
+          </div>
+
+          <div id="t-wifi" class="tab-panel">
+            <p>
+              Sale-Lap1's built-in FastEthernet NIC was swapped for a WPC300N
+              wireless module, then connected to AP-Branch1 with matching
+              SSID/passphrase.
+            </p>
+            <div class="cfg-head">
+              <span>Sale-Lap1 → Wireless0</span><span>result</span>
+            </div>
+            <pre class="block">
+SSID: AxionDynamics-Sales   Auth: WPA2-PSK   Enc: AES
+IP Address ..... 10.10.2.13
+Default Gateway . 10.10.2.1
+DNS Server ...... 10.10.6.2</pre
+            >
+            <p style="font-size: 0.87em">
+              Same subnet, same DHCP pool, same services as the wired PCs on the
+              same LAN — only the access medium differs.
+            </p>
+          </div>
+        </div>
+
+        <!-- SECURITY -->
+        <div class="section" id="security">
+          <h2><span class="idx">12</span>NAT &amp; Security</h2>
+          <div class="grid2">
+            <div>
+              <h3>NAT</h3>
+              <div class="tbl-wrap">
+                <table>
+                  <tr>
+                    <th>Type</th>
+                    <th>Config</th>
+                  </tr>
+                  <tr>
+                    <td>PAT (overload)</td>
+                    <td>
+                      All hosts matching ACL 1 (10.10.0.0/16) share Gi0/1's
+                      public IP outbound
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Static</td>
+                    <td class="mono">10.10.6.3 ↔ 203.0.113.10</td>
+                  </tr>
+                </table>
+              </div>
+              <div class="cfg-head">
+                <span>DataCenter-R6# show ip nat translations</span>
+              </div>
+              <pre class="block">
+Pro Inside global   Inside local   Outside local  Outside global
+--- 203.0.113.10    10.10.6.3      ---            ---</pre
+              >
+            </div>
+            <div>
+              <h3>ACL</h3>
+              <div class="tbl-wrap">
+                <table>
+                  <tr>
+                    <th>Applied on</th>
+                    <th>Direction</th>
+                    <th>Effect</th>
+                  </tr>
+                  <tr>
+                    <td>DataCenter-R6 Gi0/1</td>
+                    <td>inbound</td>
+                    <td>
+                      Only traffic to 203.0.113.10 permitted; everything else
+                      denied
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="note">
+            <b>Placement decision:</b> the ACL is applied on the same router
+            that performs NAT translation (Data Center-R6), not on the separate
+            ISP edge router where it was first configured. Splitting NAT and ACL
+            enforcement across two routers caused return traffic to fail
+            matching in the simulator. Full trail in
+            <a href="#troubleshoot">Troubleshooting</a>.
+          </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="section" id="stats">
+          <h2><span class="idx">13</span>Implementation Statistics</h2>
+          <div class="grid2">
+            <div class="chart-card">
+              <h4>Requirement coverage</h4>
+              <canvas id="reqChart" height="230"></canvas>
+            </div>
+            <div class="chart-card">
+              <h4>Subnet allocation by size</h4>
+              <canvas id="subnetChart" height="230"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- TESTING -->
+        <div class="section" id="testing">
+          <h2><span class="idx">14</span>Testing Log</h2>
+          <div class="tbl-wrap">
+            <table>
+              <tr>
+                <th>Test</th>
+                <th>Method</th>
+                <th>Result</th>
+              </tr>
+              <tr>
+                <td>Server DHCP</td>
+                <td>PC0 static→DHCP</td>
+                <td><span class="pill pill-ok">10.10.2.10 assigned</span></td>
+              </tr>
+              <tr>
+                <td>Local router DHCP</td>
+                <td>Dist-PC1/2 static→DHCP</td>
+                <td>
+                  <span class="pill pill-ok">10.10.5.10/.11 assigned</span>
+                </td>
+              </tr>
+              <tr>
+                <td>OSPF adjacency, all links</td>
+                <td class="mono">show ip ospf interface</td>
+                <td>
+                  <span class="pill pill-ok">FULL on every neighbor</span>
+                </td>
+              </tr>
+              <tr>
+                <td>WAN failover</td>
+                <td>Shut primary Se0/0/0, recheck route</td>
+                <td>
+                  <span class="pill pill-ok">Auto-switched to backup</span>
+                </td>
+              </tr>
+              <tr>
+                <td>DNS + HTTP</td>
+                <td>Browser, domain name</td>
+                <td><span class="pill pill-ok">Page rendered</span></td>
+              </tr>
+              <tr>
+                <td>Email send/receive</td>
+                <td>PC0 → PC1, compose + receive</td>
+                <td><span class="pill pill-ok">Receive Mail Success</span></td>
+              </tr>
+              <tr>
+                <td>FTP transfer</td>
+                <td>dir + get, live session</td>
+                <td><span class="pill pill-ok">4.4 MB transferred</span></td>
+              </tr>
+              <tr>
+                <td>Wireless client</td>
+                <td>Laptop DHCP over AP</td>
+                <td>
+                  <span class="pill pill-ok">Correct subnet/gateway</span>
+                </td>
+              </tr>
+              <tr>
+                <td>PAT</td>
+                <td>PC ping to ISP interface</td>
+                <td>
+                  <span class="pill pill-ok">Confirmed via debug ip nat</span>
+                </td>
+              </tr>
+              <tr>
+                <td>Static NAT + ACL</td>
+                <td>Remote PC → public IP, browser</td>
+                <td>
+                  <span class="pill pill-ok"
+                    >Success after routing + ACL placement fix</span
+                  >
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <h3>Requirement checklist</h3>
+          <ul class="checklist">
+            <li><b>&#10003;</b>VLSM subnetting</li>
+            <li><b>&#10003;</b>DHCP — server + router</li>
+            <li><b>&#10003;</b>OSPF + static + redistribution</li>
+            <li><b>&#10003;</b>VLAN + inter-VLAN routing</li>
+            <li><b>&#10003;</b>DNS</li>
+            <li><b>&#10003;</b>HTTP</li>
+            <li><b>&#10003;</b>Email (SMTP/POP3)</li>
+            <li><b>&#10003;</b>FTP</li>
+            <li><b>&#10003;</b>Wireless AP (WPA2)</li>
+            <li><b>&#10003;</b>NAT (PAT + static)</li>
+            <li><b>&#10003;</b>ACL / firewall</li>
+            <li><b>&#10003;</b>WAN redundancy</li>
+          </ul>
+        </div>
+
+        <!-- TROUBLESHOOTING -->
+        <div class="section" id="troubleshoot">
+          <h2><span class="idx">15</span>Troubleshooting</h2>
+          <p class="section-desc">
+            Four real issues hit during the build, kept here with the actual
+            diagnosis path rather than just the fix — this is what the debugging
+            looked like at the time.
+          </p>
+
+          <h3>1. Classful mask auto-fill</h3>
+          <p>
+            Packet Tracer suggested classful masks (255.0.0.0 for a 10.x
+            address) whenever a static IP was typed manually. Caught by
+            comparing the auto-filled mask against the VLSM plan every time and
+            overwriting it — most visible on Server1's own static IP and later
+            on the Remote-PC subnet, which was deliberately left at the classful
+            255.255.0.0 to stay consistent with the router side rather than
+            re-doing both ends.
+          </p>
+
+          <h3>2. HWIC-4ESW is not a routed interface</h3>
+          <div class="fail">
+            Tried to use HWIC-4ESW to add extra WAN ports on HQ-R1.
+            <span class="mono">ip address</span> on the resulting Fa0/x/x port
+            failed with <span class="mono">Invalid input detected</span>.
+            Cross-checked against Cisco community reports: HWIC-4ESW is Layer-2
+            only — its ports need an SVI/VLAN, they can't take a direct IP.
+            Switched to HWIC-2T (serial) for every extra WAN interface instead.
+          </div>
+
+          <h3>
+            3. Static NAT unreachable from the remote client — asymmetric
+            routing
+          </h3>
+          <p>
+            Ping and HTTP to 203.0.113.10 timed out from the remote PC even
+            though <span class="mono">debug ip nat</span> showed correct
+            translation in both directions:
+          </p>
+          <pre class="block">
+NAT: s=172.16.99.10, d=203.0.113.10-&gt;10.10.6.3 [355]
+NAT*: s=10.10.6.3-&gt;203.0.113.10, d=172.16.99.10 [3119]</pre
+          >
+          <p>
+            Root cause: ISP-R7 had no route back to 172.16.99.0/24, so return
+            traffic had nowhere to go once it reached the edge. Fixed with:
+          </p>
+          <pre class="block">
+ip route 172.16.99.0 255.255.255.0 198.51.100.2</pre
+          >
+
+          <h3>4. ACL on a different router than NAT blocks return traffic</h3>
+          <p>
+            Even with routing fixed, adding an inbound ACL on ISP-R7 broke the
+            same connection again — permit rules showed zero matches while the
+            deny counter climbed. Confirmed against a matching Cisco community
+            thread (NAT + ACL split across two routers is a known Packet Tracer
+            simulation limitation). Moved the ACL off ISP-R7 entirely and
+            applied it on DataCenter-R6's outside interface instead — same
+            router that performs the NAT translation — which resolved it
+            immediately.
+          </p>
+
+          <div class="success">
+            All four were isolated with standard tools —
+            <span class="mono">show ip interface brief</span>,
+            <span class="mono">show ip route</span>,
+            <span class="mono">debug ip nat</span>,
+            <span class="mono">show access-lists</span> — rather than by
+            re-typing configuration until something worked.
+          </div>
+        </div>
+
+        <!-- CONCLUSION -->
+        <div class="section" id="conclusion">
+          <h2><span class="idx">16</span>Conclusion</h2>
+          <p>
+            Every requirement on the lab checklist was configured and then
+            verified live — not just typed in and assumed working. DHCP
+            assignment was watched happen on an actual PC, DNS resolution was
+            watched feed into a real browser session, mail was sent from one PC
+            and read on another, a file was actually pulled over FTP with a byte
+            count and transfer speed, a wireless laptop picked up the right
+            subnet over the air, and NAT/ACL behavior was confirmed with debug
+            output rather than a screenshot of a config that might not be doing
+            what it looks like.
+          </p>
+          <p>
+            The four issues in the troubleshooting log weren't edited out —
+            they're left in because they're the parts that actually took time
+            and forced a real understanding of how NAT, ACLs, and routing
+            interact, rather than following a script.
+          </p>
+        </div>
+
+        <footer>
+          Axion Dynamics — Computer Networks Lab · Team Adrenaline · Daffodil
+          International University
+        </footer>
+      </div>
+    </div>
+
+    <a href="#overview" class="toplink">↑</a>
+
+    <script>
+      document.querySelectorAll(".sidenav a").forEach(function (link) {
+        link.addEventListener("click", function () {
+          document.getElementById("nav").classList.remove("open");
+        });
+      });
+
+      document.querySelectorAll("#svcTabs .tab-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document
+            .querySelectorAll("#svcTabs .tab-btn")
+            .forEach((b) => b.classList.remove("active"));
+          document
+            .querySelectorAll(".tab-panel")
+            .forEach((p) => p.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById(btn.dataset.tab).classList.add("active");
+        });
+      });
+
+      const navy = "#0c2340",
+        coral = "#d85a30",
+        green = "#1d7a5c",
+        blue = "#1a5f9e",
+        amber = "#a3650f";
+
+      new Chart(document.getElementById("deviceChart"), {
+        type: "doughnut",
+        data: {
+          labels: ["Routers", "Switches", "Servers", "PC/Laptop", "AP"],
+          datasets: [
+            {
+              data: [8, 7, 2, 17, 1],
+              backgroundColor: [navy, blue, coral, green, amber],
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: { boxWidth: 11, font: { size: 10 } },
+            },
+          },
+        },
+      });
+
+      new Chart(document.getElementById("hostChart"), {
+        type: "bar",
+        data: {
+          labels: ["HQ", "Br1", "Br2", "Br3", "Br4", "DC", "Rmt"],
+          datasets: [
+            {
+              label: "Hosts",
+              data: [3, 4, 4, 3, 2, 2, 1],
+              backgroundColor: navy,
+            },
+          ],
+        },
+        options: {
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } } },
+        },
+      });
+
+      new Chart(document.getElementById("routerChart"), {
+        type: "bar",
+        data: {
+          labels: ["Cisco 2911"],
+          datasets: [{ label: "Count", data: [8], backgroundColor: coral }],
+        },
+        options: {
+          indexAxis: "y",
+          plugins: { legend: { display: false } },
+          scales: { x: { beginAtZero: true, ticks: { stepSize: 2 } } },
+        },
+      });
+
+      new Chart(document.getElementById("reqChart"), {
+        type: "bar",
+        data: {
+          labels: [
+            "VLSM",
+            "DHCP",
+            "Routing",
+            "VLAN",
+            "DNS",
+            "HTTP",
+            "Email",
+            "FTP",
+            "AP",
+            "NAT",
+            "ACL",
+            "Redund.",
+          ],
+          datasets: [
+            {
+              label: "Done",
+              data: [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+              backgroundColor: green,
+            },
+          ],
+        },
+        options: {
+          indexAxis: "y",
+          plugins: { legend: { display: false } },
+          scales: {
+            x: {
+              max: 1,
+              ticks: { stepSize: 1, callback: (v) => (v === 1 ? "Done" : "") },
+            },
+          },
+        },
+      });
+
+      new Chart(document.getElementById("subnetChart"), {
+        type: "pie",
+        data: {
+          labels: [
+            "/24 LAN (7)",
+            "/30 WAN (6)",
+            "/30 ISP (2)",
+            "Remote /24 (1)",
+          ],
+          datasets: [
+            { data: [7, 6, 2, 1], backgroundColor: [navy, blue, coral, amber] },
+          ],
+        },
+        options: {
+          plugins: {
+            legend: {
+              position: "bottom",
+              labels: { boxWidth: 11, font: { size: 10 } },
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>
