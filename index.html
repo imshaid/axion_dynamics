@@ -29,6 +29,11 @@
       html {
         scroll-behavior: smooth;
       }
+      html,
+      body {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
       body {
         margin: 0;
         font-family:
@@ -100,6 +105,8 @@
 
       .menu-toggle {
         display: none;
+        position: fixed;
+        z-index: 200;
       }
 
       .content {
@@ -227,16 +234,24 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 22px;
+        min-width: 0;
       }
       .grid3 {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 14px;
+        min-width: 0;
       }
       .grid4 {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 12px;
+        min-width: 0;
+      }
+      .grid2 > *,
+      .grid3 > *,
+      .grid4 > * {
+        min-width: 0;
       }
 
       .stat {
@@ -469,9 +484,18 @@
         border: 1px solid var(--line);
         border-radius: 6px;
         padding: 16px;
+        min-width: 0;
       }
       .chart-card h4 {
         margin: 0 0 10px;
+      }
+      .chart-box {
+        position: relative;
+        height: 230px;
+        max-width: 100%;
+      }
+      .chart-box canvas {
+        max-width: 100% !important;
       }
 
       .toc-inline {
@@ -513,15 +537,18 @@
         font-size: 1.15em;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
         opacity: 0.85;
-        z-index: 50;
+        z-index: 200;
       }
 
       @media (max-width: 980px) {
+        .shell {
+          display: block;
+        }
         .sidenav {
           position: fixed;
           left: -260px;
           top: 0;
-          z-index: 100;
+          z-index: 150;
           transition: left 0.25s;
           box-shadow: 2px 0 10px rgba(0, 0, 0, 0.3);
         }
@@ -530,10 +557,8 @@
         }
         .menu-toggle {
           display: flex;
-          position: fixed;
           top: 14px;
           left: 14px;
-          z-index: 101;
           background: var(--navy);
           color: #fff;
           width: 40px;
@@ -1046,15 +1071,15 @@
           <div class="grid3">
             <div class="chart-card">
               <h4>Devices by type</h4>
-              <canvas id="deviceChart" height="200"></canvas>
+              <div class="chart-box"><canvas id="deviceChart"></canvas></div>
             </div>
             <div class="chart-card">
               <h4>End hosts per site</h4>
-              <canvas id="hostChart" height="200"></canvas>
+              <div class="chart-box"><canvas id="hostChart"></canvas></div>
             </div>
             <div class="chart-card">
               <h4>Router model usage</h4>
-              <canvas id="routerChart" height="200"></canvas>
+              <div class="chart-box"><canvas id="routerChart"></canvas></div>
             </div>
           </div>
 
@@ -2203,11 +2228,11 @@ Pro Inside global   Inside local   Outside local  Outside global
           <div class="grid2">
             <div class="chart-card">
               <h4>Requirement coverage</h4>
-              <canvas id="reqChart" height="230"></canvas>
+              <div class="chart-box"><canvas id="reqChart"></canvas></div>
             </div>
             <div class="chart-card">
               <h4>Subnet allocation by size</h4>
-              <canvas id="subnetChart" height="230"></canvas>
+              <div class="chart-box"><canvas id="subnetChart"></canvas></div>
             </div>
           </div>
         </div>
@@ -2435,6 +2460,8 @@ ip route 172.16.99.0 255.255.255.0 198.51.100.2</pre
         green = "#1d7a5c",
         blue = "#1a5f9e",
         amber = "#a3650f";
+      Chart.defaults.responsive = true;
+      Chart.defaults.maintainAspectRatio = false;
 
       new Chart(document.getElementById("deviceChart"), {
         type: "doughnut",
