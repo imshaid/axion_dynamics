@@ -422,6 +422,35 @@
         margin: 10px 0;
       }
 
+      .mission-block {
+        background: linear-gradient(135deg, #0c2340, #132b4d);
+        border-radius: 8px;
+        padding: 24px 28px;
+        margin: 14px 0 24px;
+        position: relative;
+      }
+      .mission-tag {
+        display: inline-block;
+        background: rgba(216, 90, 48, 0.18);
+        color: #f0a888;
+        border: 1px solid rgba(216, 90, 48, 0.4);
+        font-size: 0.7em;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 3px 11px;
+        border-radius: 11px;
+        margin-bottom: 12px;
+      }
+      .mission-text {
+        color: #d3dfec;
+        font-size: 0.93em;
+        margin: 0 0 12px;
+        line-height: 1.7;
+      }
+      .mission-text:last-child {
+        margin-bottom: 0;
+      }
+
       .tabs {
         display: flex;
         gap: 6px;
@@ -789,6 +818,37 @@
             Business context behind the design decisions — every VLAN, routing
             choice and DHCP method below traces back to something in this table.
           </p>
+
+          <div class="mission-block">
+            <div class="mission-tag">Company Statement</div>
+            <p class="mission-text">
+              Axion Dynamics is an advanced manufacturing company that designs,
+              builds, and deploys ASI-powered autonomous robots and industrial
+              machinery. Headquartered in Dhaka, the company operates three
+              specialized facilities — a Client Solutions &amp; Sales office, an
+              AI-Robotics Design Lab, and a Manufacturing Plant &amp; Warehouse
+              — supported by a centralized Data Center hosting core
+              infrastructure and product-deployment services.
+            </p>
+            <p class="mission-text">
+              As Axion Dynamics scaled from a small robotics workshop into a
+              full manufacturing operation spanning product design, client
+              engagement, and factory-floor production, its original flat
+              network could no longer meet the security, reliability, and
+              operational-independence needs of each function. Production-floor
+              operations, in particular, cannot depend on a live link to a
+              remote data center — a WAN outage should never halt an active
+              assembly line.
+            </p>
+            <p class="mission-text">
+              This network was designed and implemented to reflect how a real
+              robotics manufacturer would architect its infrastructure:
+              department-driven segmentation, service isolation by criticality,
+              and production-floor resilience — rather than a uniform,
+              checklist-driven topology.
+            </p>
+          </div>
+
           <div class="tbl-wrap">
             <table>
               <tr>
