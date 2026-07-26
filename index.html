@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Axion Dynamics Network Documentation</title>
+    <title>nBody Robotics Network Documentation</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
     <style>
@@ -731,8 +731,8 @@
     <div class="shell">
       <nav class="sidenav" id="nav">
         <div class="brand">
-          <a href="https://axion-dynamics.vercel.app/"
-            ><strong>AXION DYNAMICS</strong></a
+          <a href="https://nbody-robotics.vercel.app/"
+            ><strong>NBODY ROBOTICS</strong></a
           ><span>Network Documentation</span>
         </div>
 
@@ -766,7 +766,7 @@
 
       <div class="content">
         <div class="hero" id="overview">
-          <h1>Axion Dynamics — Enterprise Network Documentation</h1>
+          <h1>nBody Robotics — Enterprise Network Documentation</h1>
           <div class="sub">
             Cisco Packet Tracer implementation record — Computer Networks Lab
           </div>
@@ -783,7 +783,7 @@
         <!-- OVERVIEW -->
         <div class="section">
           <p>
-            This document records the design and build of Axion Dynamics'
+            This document records the design and build of nBody Robotics'
             internal network — a seven-site enterprise topology covering Head
             Office, four branch operations, a central Data Center, and a
             simulated internet edge with a remote worker. Every subnet, cable
@@ -822,30 +822,39 @@
           <div class="mission-block">
             <div class="mission-tag">Company Statement</div>
             <p class="mission-text">
-              Axion Dynamics is an advanced manufacturing company that designs,
-              builds, and deploys ASI-powered autonomous robots and industrial
-              machinery. Headquartered in Dhaka, the company operates three
-              specialized facilities — a Client Solutions &amp; Sales office, an
-              AI-Robotics Design Lab, and a Manufacturing Plant &amp; Warehouse
-              — supported by a centralized Data Center hosting core
-              infrastructure and product-deployment services.
+              nBody Robotics designs, builds, and deploys AI-driven autonomous
+              robots and industrial machinery — spanning everything from
+              algorithm design in the lab to physical assembly on the factory
+              floor. The company doesn't treat software and hardware as separate
+              disciplines handed off between teams; every product is engineered
+              as one system from the first design sketch to the final shipped
+              unit.
             </p>
             <p class="mission-text">
-              As Axion Dynamics scaled from a small robotics workshop into a
-              full manufacturing operation spanning product design, client
-              engagement, and factory-floor production, its original flat
-              network could no longer meet the security, reliability, and
-              operational-independence needs of each function. Production-floor
-              operations, in particular, cannot depend on a live link to a
-              remote data center — a WAN outage should never halt an active
-              assembly line.
+              Headquartered in Dhaka, nBody Robotics operates across four
+              specialized facilities: a Client Solutions office running sales
+              and live product demonstrations, an AI-Robotics Design Lab for
+              R&amp;D and simulation, a Manufacturing Plant handling assembly
+              and on-floor testing, and a Distribution Hub managing outbound
+              logistics — all backed by a centralized Data Center running the
+              company's core infrastructure and public-facing services.
             </p>
             <p class="mission-text">
-              This network was designed and implemented to reflect how a real
-              robotics manufacturer would architect its infrastructure:
-              department-driven segmentation, service isolation by criticality,
-              and production-floor resilience — rather than a uniform,
-              checklist-driven topology.
+              What started as a single-office robotics workshop has scaled into
+              a full manufacturing operation, and that growth is exactly what
+              its original network couldn't keep up with. A flat network built
+              for one office breaks down once client-facing sales traffic,
+              confidential R&amp;D work, and live production systems all have to
+              run on the same wire without one outage taking down the others.
+            </p>
+            <p class="mission-text">
+              The clearest example is the production floor: an assembly line
+              cannot depend on a live link to a remote server just to hand a
+              workstation its IP address. So the Manufacturing and Distribution
+              segments run their own local routing and DHCP, independent of the
+              Data Center — the network is built the same way the company runs
+              its operations: every part able to keep functioning on its own,
+              without being cut off from the whole.
             </p>
           </div>
 
@@ -1047,7 +1056,7 @@
           <div class="shot-wrap" onclick="openLightbox()">
             <img
               src="./pt_topology_screenshot.png"
-              alt="Full Axion Dynamics topology as built in Cisco Packet Tracer"
+              alt="Full nBody Robotics topology as built in Cisco Packet Tracer"
               loading="lazy"
             />
             <span class="shot-hint">Click to expand</span>
@@ -1058,7 +1067,7 @@
           <span class="lightbox-close">&times;</span>
           <img
             src="./pt_topology_screenshot.png"
-            alt="Full Axion Dynamics topology, expanded view"
+            alt="Full nBody Robotics topology, expanded view"
           />
         </div>
 
@@ -2216,7 +2225,7 @@ Default Gateway . 10.10.5.1</pre
           <div id="t-dns" class="tab-panel">
             <p>
               DNS hosted on Server1 under the
-              <span class="mono">axiondynamics.com</span> domain (switched from
+              <span class="mono">nbodyrobotics.com</span> domain (switched from
               <span class="mono">.local</span> after the mail client rejected
               that TLD as an invalid email domain — see Troubleshooting).
             </p>
@@ -2228,17 +2237,17 @@ Default Gateway . 10.10.5.1</pre
                   <th>Points to</th>
                 </tr>
                 <tr>
-                  <td class="mono">www.axiondynamics.com</td>
+                  <td class="mono">www.nbodyrobotics.com</td>
                   <td>A</td>
                   <td class="mono">10.10.6.3</td>
                 </tr>
                 <tr>
-                  <td class="mono">mail.axiondynamics.com</td>
+                  <td class="mono">mail.nbodyrobotics.com</td>
                   <td>A</td>
                   <td class="mono">10.10.6.3</td>
                 </tr>
                 <tr>
-                  <td class="mono">ftp.axiondynamics.com</td>
+                  <td class="mono">ftp.nbodyrobotics.com</td>
                   <td>A</td>
                   <td class="mono">10.10.6.3</td>
                 </tr>
@@ -2255,11 +2264,11 @@ Default Gateway . 10.10.5.1</pre
               and HTTP together.
             </p>
             <div class="cfg-head">
-              <span>PC0 browser</span><span>http://www.axiondynamics.com</span>
+              <span>PC0 browser</span><span>http://www.nbodyrobotics.com</span>
             </div>
             <pre class="block">
 Page rendered:
-  AXION DYNAMICS — Engineering Intelligence...
+  NBODY ROBOTICS — Engineering Intelligence...
   About Us / Our Divisions / Project Team / Course Instructor</pre
             >
           </div>
@@ -2267,19 +2276,19 @@ Page rendered:
           <div id="t-mail" class="tab-panel">
             <p>
               SMTP + POP3 on Server2, domain
-              <span class="mono">axiondynamics.com</span>, accounts
+              <span class="mono">nbodyrobotics.com</span>, accounts
               <span class="mono">admin</span>, <span class="mono">sales</span>,
               <span class="mono">hr</span>.
             </p>
             <div class="cfg-head">
               <span
-                >PC0 sales@axiondynamics.com → PC1 admin@axiondynamics.com</span
+                >PC0 sales@nbodyrobotics.com → PC1 admin@nbodyrobotics.com</span
               ><span>Mail Browser log</span>
             </div>
             <pre class="block">
-Sending mail to admin@axiondynamics.com, subject: Test Mail
-DNS resolving mail.axiondynamics.com -> 10.10.6.3
-Receiving mail from POP3 Server mail.axiondynamics.com
+Sending mail to admin@nbodyrobotics.com, subject: Test Mail
+DNS resolving mail.nbodyrobotics.com -> 10.10.6.3
+Receiving mail from POP3 Server mail.nbodyrobotics.com
 Receive Mail Success.</pre
             >
           </div>
@@ -2295,8 +2304,8 @@ Receive Mail Success.</pre
               <span>RnD-PC2 command prompt</span><span>live session</span>
             </div>
             <pre class="block">
-PC&gt;ftp mail.axiondynamics.com
-Connected to mail.axiondynamics.com
+PC&gt;ftp mail.nbodyrobotics.com
+Connected to mail.nbodyrobotics.com
 220- Welcome to PT Ftp server
 Username: ftpuser
 331- Username ok, need password
@@ -2598,7 +2607,7 @@ ip route 172.16.99.0 255.255.255.0 198.51.100.2</pre
         </div>
 
         <footer>
-          Axion Dynamics — Computer Networks Lab · Team Adrenaline · Daffodil
+          nBody Robotics — Computer Networks Lab · Team Adrenaline · Daffodil
           International University
         </footer>
       </div>
